@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block right-column %}
+    {% include "right-column.html" %}
+{% endblock %}
+
+{% load static %}
+
+{% block content %}
+    <div class="main-question">
+        <div class="row">
+            <div class="col-xs-8 col-sm-1" style="padding: 0px; margin-top: 3px">
+                <img src="{{ question.author.avatar.url }}" alt="user_avatar" height="100" width="100" class="img-thumbnail">
+            </div>
+
+            <div class="col-xs-4 col-sm-11" style="padding-left: 10px; margin-left: 0px; padding-right: 0px;">
+                <dl>
+                    <dt class="headlines-answer-question">
+                        <a href="{% url 'question' question.id %}"> {{ question.title }} </a>
+                    </dt>
+                    <dd>
+                        {{ question.text }}
+                    </dd>
+                </dl>
+
+                <div class="row" style="margin-top: 20px; margin-bottom: 10px">
+                    <div class="col-xs-8 col-sm-6">
+                        <div class="main-answers-and-tags">
+                            {% if question.tags %}
+                                <span class="tags">Tags:</span>
+                                {% for tag in question.tags %}
+                                    <a href="{% url 'tag' tag.name %}">{{ tag.name }}</a>
+                                {% endfor %}
+                            {% else %}
+                                <span class="tags">Tags: no</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-xs-8 col-sm-6">
+                        <div class="main-btn-group btn-group">
+                            <button class="btn btn-link btn-sm"><img src="{% static "/img/dislike.png" %}" alt="Dislike icons"
+                                                                     height="18" width="18" class="img-rounded">
+                            </button>
+                            <button class="btn btn-link btn-sm" disabled="disabled"
+                                    style="color: #00FF00; font-size: 12pt;">{{ question.likes }}
+                            </button>
+                            <button class="btn btn-link btn-sm"><img src="{% static "/img/like.png" %}" alt="Like icons" height="18"
+                                                                     width="18" class="img-rounded"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!--main-question -->
+
+    {% for item in answers %}
+        <div class="row question-answer">
+            <div class="col-xs-8 col-sm-2" style="margin-top: 3px; margin-right: 0; padding-left: 10px; width: 70px">
+                <img src="{{ item.author.avatar.url }}" alt="answer1" height="70" width="70" class="img-thumbnail">
+            </div>
+            <div class="col-xs-4 col-sm-10" style="padding-left: 0px; margin-left: 0px; padding-right: 0px;">
+                <dl>
+                    <!--dt class="headlines-answer-question"-->
+                    <dt>
+                        {{ item.create_date }}
+                    </dt>
+                    <dd>
+                        {{ item.text }}
+                    </dd>
+                </dl>
+
+                <div class="row" style="margin-top: 20px; margin-bottom: 10px">
+                    <div class="col-xs-8 col-sm-6">
+                        <div class="main-answers-and-tags">
+                            <div class="checkbox check-box">
+                                <label>
+                                    <input type="checkbox"> Correct!
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-8 col-sm-6" style="padding-right: 0px">
+                        <div class="question-answer-btn-group btn-group">
+                            <button class="btn btn-link btn-sm">
+                                <img src="{% static "/img/dislike.png" %}" alt="Dislike icons" height="18" width="18"
+                                     class="img-rounded">
+                            </button>
+                            <button class="btn btn-link btn-sm" disabled="disabled"
+                                    style="color: #00FF00; font-size: 12pt;">
+                                {{ item.likes }}
+                            </button>
+                            <button class="btn btn-link btn-sm">
+                                <img src="{% static "/img/like.png" %}" alt="Like icons" height="18" width="18" class="img-rounded">
+                            </button>
+                        </div>
+                    </div>
+                </div><!--/.check box and like/dislike -->
+            </div>
+        </div> <!--/.answer -->
+    {% endfor %}
+
+
+    <div class="row user-answer">
+        <div class="form-group">
+            <textarea class="form-control" rows="3" placeholder="Enter your answer" id="textQuestion"></textarea>
+            <button type="submit" class="btn btn-default button-answer">Answer</button>
+        </div>
+    </div> <!--/.user answer -->
+{% endblock %}
+
+
+{% block pagination %}
+    {% include "paginator.html" %}
+{% endblock %}
+              

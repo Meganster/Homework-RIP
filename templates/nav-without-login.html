@@ -1,0 +1,39 @@
+<!--Описание navbar-header-->
+<div class="navbar-header style-navbar">
+    <span class="sr-only"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+
+    <a class="navbar-brand logo pull-left" href="{% url 'index' %}" style="font-style: normal">
+        <font id="first-word-title">stack</font>
+
+        <font color="black">
+            questions
+        </font>
+    </a>
+</div>
+
+<div id="navbar" class="collapse navbar-collapse">
+    <ul class="nav navbar-nav">
+        <li>
+            <form class="navbar-search pull-left">
+                <input type="text" class="search-query placeholder" placeholder="Search">
+            </form>
+        </li>
+    </ul>
+
+    <ul class="nav navbar-nav pull-right login-register-header">
+        <li>
+            <div class="btn-group">
+                <button class="btn btn-login-header">
+                    <a href="{% url 'login' %}">Login</a>
+                </button>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-register-header">
+                    <a href="{% url 'reg' %}">Registration</a>
+                </button>
+            </div>
+        </li>
+    </ul>
+</div><!--/.navbar-collapse -->

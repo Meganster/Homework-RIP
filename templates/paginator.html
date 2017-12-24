@@ -1,0 +1,55 @@
+<!--div>
+       <nav aria-label="Page navigation">
+            <ul class="pagination">
+            {% if objects.has_previous %}
+              <li>
+                <a href="?page={{ objects.previous_page_number }}" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+             {% endif %}
+             
+              <li><a href="#">1</a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li><a href="#">4</a></li>
+              <li><a href="#">5</a></li>
+              
+              <li>
+                <a href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+         </nav>
+	</div-->
+	
+<!--div class="pagination">
+    <span class="step-links">
+        {% if objects.has_previous %}
+            <a href="?page={{ objects.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ objects.number }} of {{ objects.paginator.num_pages }}.
+        </span>
+
+        {% if objects.has_next %}
+            <a href="?page={{ objects.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div-->
+
+<ul class="pagination">
+	{% if objects.has_previous %}
+  		<li>
+    		<a href="?page={{ objects.previous_page_number }}">&larr; Older</a>
+  		</li>
+  {% endif %}
+  
+  {% if objects.has_next %}
+		<li>
+   		<a href="?page={{ objects.next_page_number }}">Newer &rarr;</a>
+  		</li>
+  {% endif %}
+</ul>

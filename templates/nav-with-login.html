@@ -1,0 +1,44 @@
+<!--Описание navbar-header-->
+{% load static %}
+<div class="navbar-header style-navbar">
+    <span class="sr-only"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+
+    <a class="navbar-brand logo pull-left" href="{% url 'index' %}" style="font-style: normal">
+        <font id="first-word-title">stack</font>
+
+        <font color="black">
+            questions
+        </font>
+    </a>
+</div>
+
+<div id="navbar" class="collapse navbar-collapse">
+    <ul class="nav navbar-nav">
+        <li>
+            <form class="navbar-search pull-left">
+                <input type="text" class="search-query placeholder" placeholder="Search">
+            </form>
+        </li>
+    </ul>
+
+    <ul class="nav navbar-nav pull-right">
+        <li><a href="{% url 'ask' %}" class="ask" style="color: cornflowerblue">ASK</a></li>
+        {% load static %}
+        <li><img src="uploads/{{ user.avatar }}" alt="user_avatar" height="40" width="40" class="img-rounded avatar"></li>
+
+        <li class="dropdown">
+            <a href=""
+               class="dropdown-toggle nickname"
+               data-toggle="dropdown">
+                {{ user.username }}
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="{% url 'settings' %}">Settings</a></li>
+                <li><a href="{% url 'logout' %}">Log out</a></li>
+            </ul>
+        </li>
+    </ul>
+</div><!--/.nav-collapse -->

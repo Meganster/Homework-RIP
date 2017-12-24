@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Site like Stackoverflow">
+    <meta name="author" content="yury" >
+    <link rel="icon" href="/img/favicon.ico">
+
+    <title>Stack Questions</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/starter-template.css" rel="stylesheet">
+    <link href="/css/poptags-template.css" rel="stylesheet">
+    <link href="/css/question-answer.css" rel="stylesheet">
+    <link href="/css/pagination.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+  <!--Описание шапки для страницы-->
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+
+        <!--Описание navbar-header-->
+        <div class="navbar-header style-navbar">
+            <span class="sr-only"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+
+            <a class="navbar-brand logo pull-left" href="/index.html" style="font-style: normal">
+                <font id="first-word-title" >stack</font>
+
+                <font color="black">
+                    questions
+                </font>
+            </a>
+        </div>
+
+       
+
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li>
+              <form class="navbar-search pull-left">
+                <input type="text" class="search-query placeholder" placeholder="Search">
+              </form>
+            </li>
+          </ul>
+
+          <ul class="nav navbar-nav pull-right login-register-header">
+            <li>
+                <div class="btn-group">
+                    <button class="btn btn-login-header">
+                        <a href="/login.html">Login</a>
+                    </button>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-register-header">
+                        <a href="/registration.html">Registration</a>
+                    </button>
+                </div>
+            </li>
+          </ul>
+        </div><!--/.navbar-collapse -->
+
+      </div>
+    </div>
+  </nav>
+  <p></p>
+
+    <div class="container">
+      <div class="row">
+
+        <div class="col-md-8">
+          <p class="tag-for-search">Tag: MVC</p>
+
+          <div class="row question-answer">
+            <div class="col-xs-8 col-sm-2 col-picture">
+              <img src="/img/avatar2.jpg" alt="question1"  height="50" width="50" class="img-rounded">
+            </div>
+            <div class="col-xs-4 col-sm-10 col-question">
+              <dl>
+                <dt class="headlines-answer-question">
+                  <a href="#question1">Strange question1</a>
+                </dt>
+                <dd>
+                  Почему он используется? Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. 
+                </dd>
+              </dl>
+
+              <div class="row tags-like-dislike">
+                    <div class="col-xs-8 col-sm-6">
+                      <div class="main-answers-and-tags">
+                            <a href="/question.html">Answers 5</a>
+                            <span class="tags">Tags:</span>
+                            <a href="#mvc">MVC</a> 
+                            <a href="#overflow">Overflow</a>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-8 col-sm-6 like-dislike">
+                      <div class="questions-list-btn-group btn-group">
+                        <button class="btn btn-link btn-sm"><img src="/img/dislike.png" alt="Dislike icons" height="18" width="18" class="img-rounded"></button>
+                       <button class="btn btn-link btn-sm green-mark count-like" disabled="disabled">+1</button>
+                        <button class="btn btn-link btn-sm"><img src="/img/like.png" alt="Dislike icons" height="18" width="18" class="img-rounded"></button>
+                      </div>
+                    </div>
+              </div><!--/.tags and like/dislike -->
+            </div>
+          </div> <!--/.question1 -->
+
+          <div class="row question-answer">
+            <div class="col-xs-8 col-sm-2 col-picture">
+              <img src="/img/avatar3.jpg" alt="question1"  height="50" width="50" class="img-rounded">
+            </div>
+            <div class="col-xs-4 col-sm-10 col-question">
+              <dl>
+                <dt class="headlines-answer-question">
+                  <a href="#question2">Strange question2</a>
+                </dt>
+                <dd>
+                  Почему он используется? Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. 
+                </dd>
+              </dl>
+
+              <div class="row tags-like-dislike">
+                    <div class="col-xs-8 col-sm-6 like-dislike">
+                      <div class="main-answers-and-tags">
+                            <a href="#question2">Answers 7</a>
+                            <span class="tags">Tags:</span>
+                            <a href="#mvc">MVC</a> 
+                            <a href="#overflow">Overflow</a>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-8 col-sm-6 like-dislike">
+                      <div class="questions-list-btn-group btn-group">
+                        <button class="btn btn-link btn-sm"><img src="/img/dislike.png" alt="Dislike icons" height="18" width="18" class="img-rounded"></button>
+                        <button class="btn btn-link btn-sm green-mark count-like" disabled="disabled">+10</button>
+                        <button class="btn btn-link btn-sm"><img src="/img/like.png" alt="Dislike icons" height="18" width="18" class="img-rounded"></button>
+                      </div>
+                    </div>
+              </div><!--/.tags and like/dislike -->
+            </div>
+          </div> <!--/.question2 -->
+
+          <div class="row question-answer">
+            <div class="col-xs-8 col-sm-2 col-picture">
+              <img src="/img/avatar4.jpg" alt="question1"  height="50" width="50" class="img-rounded">
+            </div>
+            <div class="col-xs-4 col-sm-10 col-question" style="margin: 0">
+              <dl>
+                <dt class="headlines-answer-question">
+                  <a href="#question3">Strange question3</a>
+                </dt>
+                <dd>
+                  Почему он используется? Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. 
+                </dd>
+              </dl>
+
+              <div class="row tags-like-dislike">
+                    <div class="col-xs-8 col-sm-6 like-dislike">
+                      <div class="main-answers-and-tags">
+                            <a href="#question3">Answers 15</a>
+                            <span class="tags">Tags:</span>
+                            <a href="#mvc">MVC</a> 
+                            <a href="#overflow">Overflow</a>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-8 col-sm-6 like-dislike">
+                      <div class="questions-list-btn-group btn-group">
+                        <button class="btn btn-link btn-sm"><img src="/img/dislike.png" alt="Dislike icons" height="18" width="18" class="img-rounded"></button>
+                        <button class="btn btn-link btn-sm red-mark count-like" disabled="disabled">-5</button>
+                        <button class="btn btn-link btn-sm"><img src="/img/like.png" alt="Dislike icons" height="18" width="18" class="img-rounded"></button>
+                      </div>
+                    </div>
+              </div><!--/.tags and like/dislike -->
+            </div>
+          </div> <!--/.question3 -->
+
+
+          <div class="row question-answer">
+            <div class="col-xs-8 col-sm-2 col-picture">
+              <img src="/img/avatar5.jpg" alt="question1"  height="50" width="50" class="img-rounded">
+            </div>
+            <div class="col-xs-4 col-sm-10 col-question" style="margin: 0">
+              <dl>
+                <dt class="headlines-answer-question">
+                  <a href="#question1">Strange question4</a>
+                </dt>
+                <dd>
+                  Почему он используется? Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. 
+                </dd>
+              </dl>
+
+              <div class="row tags-like-dislike">
+                    <div class="col-xs-8 col-sm-6 like-dislike">
+                      <div class="main-answers-and-tags">
+                            <a href="#question1">Answers 95</a>
+                            <span class="tags">Tags:</span>
+                            <a href="#mvc">MVC</a>
+                            <a href="#overflow">Valgrind</a>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-8 col-sm-6 like-dislike">
+                      <div class="questions-list-btn-group btn-group">
+                        <button class="btn btn-link btn-sm"><img src="/img/dislike.png" alt="Dislike icons" height="18" width="18" class="img-rounded"></button>
+                        <button class="btn btn-link btn-sm green-mark count-like" disabled="disabled">+77</button>
+                        <button class="btn btn-link btn-sm"><img src="/img/like.png" alt="Dislike icons" height="18" width="18" class="img-rounded"></button>
+                      </div>
+                    </div>
+              </div><!--/.tags and like/dislike -->
+            </div>
+          </div> <!--/.question4 -->
+        </div><!-- col-md-8 -->
+
+
+
+
+        <!-- правый столбец -->
+        <div class="col-md-4">
+            <div class="right-block">
+                  <div class="block">
+                      <p class="headlines-right-col">
+                          <font>Popular tags</font>
+                      </p>
+
+                      <div id="widgettags">
+                        <p>
+                          <a class="t6" href="*options.url*url">PostgreSQL</a>
+                          <a class="t2" href="*options.url*url">Chrome</a>
+                          <a class="t9" href="*options.url*url">Java</a>
+                        </p>
+                        <p>
+                          <a class="t1" href="*options.url*url">Opera</a>
+                          <a class="t3" href="*options.url*url">StackOverflow</a>
+                          <a class="t10" href="*options.url*url">C++</a>
+                        </p>
+                        <p>
+                          <a class="t8" href="*options.url*url">Python</a>
+                          <a class="t7" href="*options.url*url">Perl</a>
+                          <a class="t4" href="*options.url*url">Firefox</a>
+                          <a class="t5" href="*options.url*url">MVC</a>
+                        </p>
+                      </div>
+                  </div> 
+
+                  <div class="best-members">
+                        <div class="block">
+                            <p class="headlines-right-col">Best members</p>
+                              <ul class="active-users">
+                                <li><a href="#mrfreeman">Mr.Freeman</a></li>
+                                <li><a href="#gorub">Gorub</a></li>
+                                <li><a href="#maks">Maks</a></li>
+                                <li><a href="#fikus">Fikus</a></li>
+                                <li><a href="#alex">Alex</a></li>
+                                <li><a href="#rr">RR</a></li>
+                                <li><a href="#apolon">Apolon</a></li>
+                              </ul>
+                        </div> 
+                  </div>
+            </div>    
+        </div><!-- /.col-md-4 -->
+
+      </div><!-- /.row -->
+
+
+      <div>
+          <nav aria-label="Page navigation">
+            <ul class="pagination">
+              <li>
+                <a href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li><a href="#">1</a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li><a href="#">4</a></li>
+              <li><a href="#">5</a></li>
+              <li>
+                <a href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+      </div>
+    </div><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    </body>
+</html>

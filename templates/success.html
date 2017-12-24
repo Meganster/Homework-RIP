@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div style="text-align: center; margin-top: 100px; margin-left: 250px">
+        {% if success %}
+            <h2>
+                Вы вошли как {{ user.username }}
+            </h2>
+        {% else %}
+
+            <h2>Что-то пошло не так...</h2>
+            <p>
+                Попробуйте авторизоваться ещё раз.
+            </p>
+        {% endif %}
+    </div>
+{% endblock %}

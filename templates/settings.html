@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block nav-collapse %}
+    {% include "nav-with-login.html" %}
+{% endblock %}
+
+{% block right-column %}
+    {% include "right-column.html" %}
+{% endblock %}
+
+{% block content %}
+    <p class="header-login">Settings</p>
+    <form id="form-login" class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-3 control-label blue-text-color">Username</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" placeholder="Nickname" value="{{ user.username }}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label blue-text-color">Email</label>
+            <div class="col-sm-9">
+                <input type="email" class="form-control" placeholder="Email" value="{{ user.email }}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label blue-text-color" style="padding-left: 0px">First name</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" placeholder="first_name" value="{{ user.first_name }}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label blue-text-color" style="padding-left: 0px">Last name</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" placeholder="last_name" value="{{ user.last_name }}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label blue-text-color">Avatar</label>
+            <div class="col-sm-9">
+                <img src="uploads/{{ user.avatar }}" alt="user_avatar" height="100" width="100" class="img-rounded">
+                <input type="file" id="InputFile" style="margin-top: 8px">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <button type="submit" class="btn btn-default">Save</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

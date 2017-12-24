@@ -1,0 +1,70 @@
+
+.headlines-right-col{
+	margin-top: 13%;
+	font-size: x-large;
+	text-align: left;
+	font-weight: 500;
+	color: cornflowerblue;
+}
+
+.tag-for-search{
+	text-align: left;
+	font-size: large; 
+	margin: 20px 0px;
+}
+
+/*Cloud of TAGS*/
+div#widgettags  a{
+    text-decoration: none;
+    margin-right: 8px; 
+}
+a.t1{
+    font-size:1.4em;
+    color:#3CB371;
+    font-weight:100;
+}
+a.t2{
+    font-size:1.2em;
+    color:#F08080;
+    font-weight:200;
+}
+a.t3{
+    font-size:1em;
+    color:#9ACD32;
+    font-weight:300;
+}
+a.t4{
+    font-size:1.1em;
+    color:#4169E1;
+    font-weight:400;
+}
+a.t5{
+    font-size:1.2em;
+    color:#0000FF;
+    font-weight:500;
+}
+a.t6{
+    font-size:1.3em;
+    color:#FF7F50;
+    font-weight:600;
+}
+a.t7{
+    font-size:1.4em;
+    color:#1E90FF;
+    font-weight:700;
+}
+a.t8{
+    font-size:1.5em;
+    color:#7B68EE;
+    font-weight:800;
+}
+a.t9{
+    font-size:1.6em;
+    color:#FF6347;
+    font-weight:900;
+}
+a.t10{
+    font-size:1.1em;
+    color:#006400;
+    font-weight:200;
+}
