@@ -54,56 +54,28 @@
                 {% endfor %}
             {% endif %}
 
-            <div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label-login blue-text-color">Nickname</label>
-                    <div class="col-sm-9">
-                        {{ form.username }}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label-passwrd blue-text-color">Email address</label>
-                    <div class="col-sm-9" style="margin-top: 3px">
-                        {{ form.email }}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label-passwrd blue-text-color">First name</label>
-                    <div class="col-sm-9" style="margin-top: 3px">
-                        {{ form.firstname }}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label-passwrd  blue-text-color">Last name</label>
-                    <div class="col-sm-9" style="margin-top: 3px">
-                        {{ form.lastname }}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label-passwrd  blue-text-color">Password</label>
-                    <div class="col-sm-9"  style="margin-top: 3px">
-                        {{ form.password }}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label-passwrd  blue-text-color">Repeat password</label>
-                    <div class="col-sm-9" style="margin-top: 3px">
-                        {{ form.confirmpass }}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label-passwrd  blue-text-color">Select your avatar</label>
-                    <div class="col-sm-9" style="margin-top: 10px">
-                        <input type="file" id="InputFile">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-sm-offset-3 col-sm-9" style="margin-top: 15px">
-                        <button type="submit" class="btn btn-default">Register</button>
-                    </div>
-                </div>
+            <div class="form-group">
+                <label class="blue-text-color">Username</label>
+                {{ form.username }}
             </div>
+            <div class="form-group">
+                <label class="blue-text-color">Email address</label>
+                {{ form.email }}
+            </div>
+            <div class="form-group">
+                <label class="blue-text-color">Password</label>
+                {{ form.password }}
+            </div>
+            <div class="form-group">
+                <label class="blue-text-color">Repeat password</label>
+                {{ form.confirm_password }}
+            </div>
+            <div class="form-group">
+                <label class="blue-text-color">Select your avatar</label>
+                 {{ form.avatar }}
+            </div>
+
+            <button action="submit" class="btn btn-default">Register</button>
         </div>
     </form>
 {% endblock %}
