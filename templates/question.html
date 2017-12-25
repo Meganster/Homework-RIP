@@ -90,13 +90,14 @@
         </div> <!--/.answer -->
     {% endfor %}
 
-
-    <div class="row user-answer">
-        <div class="form-group">
-            <textarea class="form-control" rows="3" placeholder="Enter your answer" id="textQuestion"></textarea>
-            <button type="submit" class="btn btn-default button-answer">Answer</button>
-        </div>
-    </div> <!--/.user answer -->
+    {% if user_logged_in %}
+        <div class="row user-answer">
+            <div class="form-group">
+                <textarea class="form-control" rows="3" placeholder="Enter your answer" id="textQuestion"></textarea>
+                <button type="submit" class="btn btn-default button-answer">Answer</button>
+            </div>
+        </div> <!--/.user answer -->
+    {% endif %}
 {% endblock %}
 
 

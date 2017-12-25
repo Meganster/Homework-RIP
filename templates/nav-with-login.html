@@ -26,7 +26,7 @@
     <ul class="nav navbar-nav pull-right">
         <li><a href="{% url 'ask' %}" class="ask" style="color: cornflowerblue">ASK</a></li>
         {% load static %}
-        <li><img src="uploads/{{ user.avatar }}" alt="user_avatar" height="40" width="40" class="img-rounded avatar"></li>
+        <li><img src="{{ MEDIA_URL }}/{{ user.avatar }}" alt="user_avatar" height="40" width="40" class="img-rounded avatar"></li>
 
         <li class="dropdown">
             <a href=""

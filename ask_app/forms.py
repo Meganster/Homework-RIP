@@ -199,17 +199,21 @@ class ProfileForm(forms.Form):
 
     def clean_username(self):
         username = self.cleaned_data["username"]
-        users_with_username = UserProfile.objects.filter(username=username)
-        if len(users_with_username) > 0 and self.profile_edited.username != username:
+        users_with_this_username = UserProfile.objects.filter(username=username)
+        if len(users_with_this_username) > 0 and self.profile_edited.username != username:
             self.add_error(None, "User with username " + username + " already exists")
             self.cleaned_data["username"] = self.profile_edited.username
-            print(self.cleaned_data["username"])
-            return self.cleaned_data
+        return self.cleaned_data["username"]
+        #return self.username  # if username is using by other user
 
     def clean_email(self):
         email = self.cleaned_data["email"]
-        users_with_email = UserProfile.objects.filter(email=email)
-        if len(users_with_email) > 0 and self.profile_edited.email != email:
+        users_with_this_email = UserProfile.objects.filter(email=email)
+        if len(users_with_this_email) > 0 and self.profile_edited.email != email:
             # it means that there is some other user with selected email
             self.add_error(None, "User with email " + email + " already exists")
             return self.profile_edited.email
+        else:
+            return self.cleaned_data["email"]
+        #return self.email  # if email is using by other user
+

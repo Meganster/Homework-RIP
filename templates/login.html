@@ -13,9 +13,9 @@
     <form method="POST">
         {% csrf_token %}
         <div class="content">
-            {% if errors %}
+            {% if form.non_field_errors  %}
                 <div class="form-group">
-                    {% for error in errors %}
+                    {% for error in form.non_field_errors %}
                         <div class="error">
                             {{ error }}
                         </div>

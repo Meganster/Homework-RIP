@@ -2,7 +2,7 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login as l_in, logout as l_out
 from django.http import HttpResponseRedirect
 from django.http.response import Http404, JsonResponse
 from django.contrib.auth.decorators import login_required
@@ -73,6 +73,7 @@ def paginate(objects_list, request, page_objects_num=20):
 def _get_user_context(request, context):
     if request.user.is_authenticated():
         context['user_logged_in'] = True
+        #context['user'] = UserProfile.objects.get_or_create(username=request.user.username)
         context['user'] = UserProfile.objects.get(username=request.user.username)
     else:
         context['user_logged_in'] = False
@@ -80,7 +81,7 @@ def _get_user_context(request, context):
 
 
 def login(request):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated():
         context = {}
         context = _get_user_context(request, context)
         return render(request, 'index.html', context)
@@ -93,9 +94,9 @@ def login(request):
         if form.is_valid():
             username = form.cleaned_data["username"]
             password = form.cleaned_data["password"]
-            user = authenticate(request=request, username=username, password=password) # try auth
-            if user is not None:  # if auth is success
-                login(request, user)  # start session
+            user_auth = authenticate(username=username, password=password)  # try auth
+            if user_auth is not None:  # if auth is success
+                l_in(request, user_auth)  # start session
                 return HttpResponseRedirect("/success")
             else:  # else, auth gone wrong
                 form.add_error(None, "Username or password is incorrect")
@@ -104,7 +105,7 @@ def login(request):
 
 
 def registration(request):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated():
         context = {}
         context = _get_user_context(request, context)
         return render(request, 'index.html', context)
@@ -114,23 +115,24 @@ def registration(request):
         register_form = RegisterForm(request.POST, request.FILES)
         if register_form.is_valid():
             new_profile = register_form.save()
-            login(request, new_profile)
+            l_in(request, new_profile)
             return HttpResponseRedirect("/success")
     return render(request, 'registration.html', {'form': register_form})
 
 
 def success(request):
-    context = _get_user_context(request)
+    context = {}
+    context = _get_user_context(request, context)
     if request.user.is_authenticated():
         context['success'] = True
         return render(request, 'success.html', context)
     else:
         return render(request, 'success.html', {"success": False})
 
-
+@login_required()
 def logout(request):
     if request.user.is_authenticated():
-        logout(request)
+        l_out(request)
         return HttpResponseRedirect('/')
     else:
         return HttpResponseRedirect('/')
@@ -143,7 +145,9 @@ def logout(request):
 @login_required()
 def settings(request):
     user = request.user
-    _profile = UserProfile.objects.filter(id=user.id).last()
+    _profile = UserProfile.objects.filter(user_ptr_id=user.id).last()
+    print("=====================")
+    print(user.id)
 
     if request.POST:
         form = ProfileForm(request.POST, request.FILES, _profile)
