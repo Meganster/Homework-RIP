@@ -162,13 +162,18 @@ class AnswerForm(forms.Form):
     answer = forms.CharField(label="Answer",
                              widget=forms.Textarea(
                                  attrs={
+                                     'id': 'textQuestion',
                                      'class': 'form-control',
-                                     'placeholder': 'Enter your answer here...'
+                                     'rows': '3',
+                                     'placeholder': 'Enter your answer'
                                  }
                              ))
 
     def save(self):
-        new_answer = Answer(user=self.user,
+        print("=========================================")
+        print(self.cleaned_data["answer"])
+        print("=========================================")
+        new_answer = Answer(author=self.user,
                             question=self.question,
                             text=self.cleaned_data["answer"])
         new_answer.save()
@@ -202,9 +207,10 @@ class ProfileForm(forms.Form):
         users_with_this_username = UserProfile.objects.filter(username=username)
         if len(users_with_this_username) > 0 and self.profile_edited.username != username:
             self.add_error(None, "User with username " + username + " already exists")
-            self.cleaned_data["username"] = self.profile_edited.username
-        return self.cleaned_data["username"]
-        #return self.username  # if username is using by other user
+            return self.profile_edited.username
+        else:
+            return self.cleaned_data["username"]
+
 
     def clean_email(self):
         email = self.cleaned_data["email"]
@@ -215,5 +221,4 @@ class ProfileForm(forms.Form):
             return self.profile_edited.email
         else:
             return self.cleaned_data["email"]
-        #return self.email  # if email is using by other user
 

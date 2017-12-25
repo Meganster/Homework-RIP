@@ -1,6 +1,6 @@
 # coding=utf-8
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import authenticate, login as l_in, logout as l_out
 from django.http import HttpResponseRedirect
@@ -38,12 +38,27 @@ def hot(request):
     return render(request, 'index.html', context)
 
 
-def question(request, id):
+def question(request, _id):
     context = {}
     context = _get_user_context(request, context)
-    main_question = Question.objects.get_with_tags(id)
-    answers = Answer.objects.get_with_likes(id)
+
+    try:
+        main_question = Question.objects.get_with_tags(_id)
+    except Question.DoesNotExist:
+        raise Http404()
+
+    answers = Answer.objects.get_with_likes(_id)
     answers_for_render = paginate(answers, request)
+
+    if request.method == 'POST':
+        form = AnswerForm(request.POST, context['user'], main_question)
+        if form.is_valid():
+            form.save()
+            return redirect('question', _id)
+    else:
+        form = AnswerForm()
+
+    context['form'] = form
     context['question'] = main_question
     context['answers'] = answers_for_render
     return render(request, 'question.html', context)
@@ -120,14 +135,28 @@ def registration(request):
     return render(request, 'registration.html', {'form': register_form})
 
 
+def create_answer(request):
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect("/")
+    else:
+        form = AnswerForm()
+
+    context = {'form': form}
+    context = _get_user_context(request, context)
+    return render(request, "form.html", context)
+
+
 def success(request):
     context = {}
     context = _get_user_context(request, context)
     if request.user.is_authenticated():
         context['success'] = True
-        return render(request, 'success.html', context)
+        return redirect('/')
     else:
         return render(request, 'success.html', {"success": False})
+
 
 @login_required()
 def logout(request):
@@ -137,10 +166,6 @@ def logout(request):
     else:
         return HttpResponseRedirect('/')
 
-# old settings
-# def settings(request):
-#    context = _get_user_context(request)
-#    return render(request, 'settings.html', context)
 
 @login_required()
 def settings(request):
