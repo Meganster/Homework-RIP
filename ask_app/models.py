@@ -96,7 +96,9 @@ class QuestionManager(models.Manager):
         question_tags = list(Tag.objects.filter(questions__id=int(question_id)))
         question.tags = question_tags
         all_likes = LikeQuestion.objects.filter(like_target_question=question)
-        question.likes = len(all_likes)
+        question.likes = 0
+        for like in all_likes:
+            question.likes += like.status
         return question
 
 

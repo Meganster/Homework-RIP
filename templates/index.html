@@ -14,7 +14,7 @@
     {% for item in objects %}
         <div class="row question-answer">
             <div class="col-xs-8 col-sm-2 col-picture">
-                <img src="{{ item.author.avatar.url }}" alt="user_avatar" height="50" width="50" class="img-rounded">
+                <img src="{{ MEDIA_URL }}/{{ item.author.avatar }}" alt="user_avatar" height="50" width="50" class="img-rounded">
             </div>
             <div class="col-xs-4 col-sm-10 col-question">
                 <dl>
@@ -48,7 +48,7 @@
                                     class="btn btn-link btn-sm"><img src="{% static "/img/dislike.png" %}"
                                                                      alt="Dislike icons"
                                                                      height="18" width="18" class="img-rounded"></i></a>
-                            {{ item.likes }}
+                            <a id="{{ item.likes }}.likes" style="status: disabled">{{ item.likes }}</a>
                             <a class="js-vote" href="#" data-qid="{{ item.id }}" data-vote="inc"><i
                                     class="btn btn-link btn-sm"><img src="{% static "/img/like.png" %}"
                                                                      alt="Dislike icons" height="18"

@@ -212,7 +212,7 @@ def vote(request):
     except:
         return JsonResponse(dict(error='bad question id'))
     _vote = request.POST.get('vote')
-    question = Question.objects.get_with_rating(id=qid)
+    question = Question.objects.get_with_tags(question_id=qid)
     likes = question.likes
     if _vote == "inc":
         likes += 1

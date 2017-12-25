@@ -10,7 +10,7 @@
     <div class="main-question">
         <div class="row">
             <div class="col-xs-8 col-sm-1" style="padding: 0px; margin-top: 3px">
-                <img src="{{ question.author.avatar.url }}" alt="user_avatar" height="100" width="100" class="img-thumbnail">
+                <img src="{{ MEDIA_URL }}/{{ question.author.avatar }}" alt="user_avatar" height="100" width="100" class="img-thumbnail">
             </div>
 
             <div class="col-xs-4 col-sm-11" style="padding-left: 10px; margin-left: 0px; padding-right: 0px;">
@@ -57,7 +57,7 @@
     {% for item in answers %}
         <div class="row question-answer">
             <div class="col-xs-8 col-sm-2" style="margin-top: 3px; margin-right: 0; padding-left: 10px; width: 70px">
-                <img src="{{ item.author.avatar.url }}" alt="answer1" height="70" width="70" class="img-thumbnail">
+                <img src="{{ MEDIA_URL }}/{{ item.author.avatar }}" alt="answer1" height="70" width="70" class="img-thumbnail">
             </div>
             <div class="col-xs-4 col-sm-10" style="padding-left: 0px; margin-left: 0px; padding-right: 0px;">
                 <dl>
