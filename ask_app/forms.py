@@ -100,20 +100,20 @@ class AskForm(forms.Form):
     title = forms.CharField(max_length=100, label="Title", help_text="Clear and short statement of your problem",
                             widget=forms.TextInput(
                                 attrs={'class': 'form-control',
-                                       'placeholder': 'Enter question title'}
+                                       'placeholder': 'Title'}
                             ))
-    question = forms.CharField(label="Question", help_text="Detailed explanation of your problem",
+    text = forms.CharField(label="Text", help_text="Detailed explanation of your problem",
                                widget=forms.Textarea(
                                    attrs={
                                        'class': 'form-control',
-                                       'placeholder': 'Enter your question'
+                                       'placeholder': 'Text of question'
                                    }
                                ))
     tags = forms.CharField(label="Tags", help_text="List of tags, separated by commas",
                            widget=forms.TextInput(
                                attrs={
                                    'class': 'form-control',
-                                   'placehoolder': 'tag1, tag2, etc...'
+                                   'placehoolder': 'tag1, tag2'
                                }
                            ))
 
@@ -123,10 +123,11 @@ class AskForm(forms.Form):
         cleaned_data["tags"] = []
 
         for tag in tag_list:
+            tag.strip()
+            print("=========================")
             print(tag)
-            if tag != u'':
-                tag.strip()
-                cleaned_data["tags"].append(tag)
+            print("=========================")
+            cleaned_data["tags"].append(tag)
 
         if not cleaned_data["tags"]:
             raise forms.ValidationError("Specify at least one valid tag")
@@ -134,20 +135,19 @@ class AskForm(forms.Form):
 
     def save(self):
         if self.user is not None:
-            question = Question(user=self.user,
+            question = Question(author=self.user,
                                 title=self.cleaned_data["title"],
-                                text=self.cleaned_data["question"],
-                                snippet=self.cleaned_data["question"][:100])
+                                text=self.cleaned_data["text"])
             question.save()
             # clean() guarantees that cleaned_data has at least one tag
             for tag in self.cleaned_data["tags"]:
                 search_tag = Tag.objects.filter(name=tag).last()
                 if search_tag:
-                    question.tags.add(search_tag)
+                    search_tag.questions.add(question)
                 else:
                     new_tag = Tag(name=tag)
                     new_tag.save()
-                    question.tags.add(new_tag)
+                    new_tag.questions.add(question)
 
             question.save()
             return question
@@ -165,7 +165,7 @@ class AnswerForm(forms.Form):
                                      'id': 'textQuestion',
                                      'class': 'form-control',
                                      'rows': '3',
-                                     'placeholder': 'Enter your answer'
+                                     'placeholder': 'Answer'
                                  }
                              ))
 

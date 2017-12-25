@@ -16,6 +16,7 @@ def index(request):
     context = _get_user_context(request, context)
     questions = Question.objects.recent_questions()
     questions_for_render = paginate(questions, request)
+
     context['objects'] = questions_for_render
     return render(request, 'index.html', context)
 
@@ -67,6 +68,16 @@ def question(request, _id):
 def ask(request):
     context = {}
     context = _get_user_context(request, context)
+
+    if request.method == 'POST':
+        form = AskForm(request.POST, UserProfile.objects.get(id=request.user.id))
+        if form.is_valid():
+            new_question = form.save()
+            return redirect('question', new_question.id)
+    else:
+        form = AskForm()
+
+    context['form'] = form
     return render(request, 'ask.html', context)
 
 

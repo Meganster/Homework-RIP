@@ -32,7 +32,7 @@
                             {% if item.tags %}
                                 <span class="tags">Tags:</span>
                                 {% for tag in item.tags %}
-                                    <a href="{% url 'tag' tag.name %}">{{ tag.name }}</a>
+                                    <a href="{ url 'tag' tag.name %}">{{ tag.name }}</a>
                                 {% endfor %}
                             {% else %}
                                 <span class="tags">Tags: no</span>
