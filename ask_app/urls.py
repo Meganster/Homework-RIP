@@ -13,5 +13,6 @@ urlpatterns = [
                url(r'^settings$', views.settings, name='settings'),
                url(r'^$', views.index, name='index'),
                url(r'^success$', views.success, name='success'),
-               url(r'^logout$', views.logout, name='logout')
+               url(r'^logout$', views.logout, name='logout'),
+               url(r'^vote/$', views.vote)
 ]

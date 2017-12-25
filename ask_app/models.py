@@ -34,7 +34,10 @@ class QuestionManager(models.Manager):
     def add_likes(all_questions):
         for question in all_questions:
             all_likes = LikeQuestion.objects.filter(like_target_question=question)
-            question.likes = len(all_likes)
+            # question.likes = len(all_likes)
+            question.likes = 0
+            for like in all_likes:
+                question.likes += like.status
         return all_questions
 
     @staticmethod

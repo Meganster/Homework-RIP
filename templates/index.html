@@ -7,7 +7,8 @@
 {% block content %}
     {% load static %}
     <p class="tag-for-search">
-        <a href="{% url 'index' %}" style="color: black">New questions</a>   <a href="{% url 'hot' %}" style="color: black">Best questions</a>
+        <a href="{% url 'index' %}" style="color: black">New questions</a> <a href="{% url 'hot' %}"
+                                                                              style="color: black">Best questions</a>
     </p>
 
     {% for item in objects %}
@@ -32,7 +33,7 @@
                             {% if item.tags %}
                                 <span class="tags">Tags:</span>
                                 {% for tag in item.tags %}
-                                    <a href="{ url 'tag' tag.name %}">{{ tag.name }}</a>
+                                    <a href="{% url 'tag' tag.name %}">{{ tag.name }}</a>
                                 {% endfor %}
                             {% else %}
                                 <span class="tags">Tags: no</span>
@@ -42,12 +43,26 @@
 
                     <div class="col-xs-8 col-sm-6 like-dislike">
                         <div class="questions-list-btn-group btn-group">
-                            <button class="btn btn-link btn-sm"><img src="{% static "/img/dislike.png" %}" alt="Dislike icons"
+                            {% csrf_token %}
+                            <a class="js-vote" href="#" data-qid="{{ item.id }}" data-vote="dec"><i
+                                    class="btn btn-link btn-sm"><img src="{% static "/img/dislike.png" %}"
+                                                                     alt="Dislike icons"
+                                                                     height="18" width="18" class="img-rounded"></i></a>
+                            {{ item.likes }}
+                            <a class="js-vote" href="#" data-qid="{{ item.id }}" data-vote="inc"><i
+                                    class="btn btn-link btn-sm"><img src="{% static "/img/like.png" %}"
+                                                                     alt="Dislike icons" height="18"
+                                                                     width="18" class="img-rounded"></i></a>
+
+                            <!--button class="btn btn-link btn-sm"><img src="{ static "/img/dislike.png" %}"
+                                                                     alt="Dislike icons"
                                                                      height="18" width="18" class="img-rounded">
                             </button>
-                            <button class="btn btn-link btn-sm green-mark count-like" disabled="disabled">{{ item.likes }}</button>
-                            <button class="btn btn-link btn-sm"><img src="{% static "/img/like.png" %}" alt="Dislike icons" height="18"
-                                                                     width="18" class="img-rounded"></button>
+                            <button class="btn btn-link btn-sm green-mark count-like"
+                                    disabled="disabled">{ item.likes }}</button>
+                            <button class="btn btn-link btn-sm"><img src="{ static "/img/like.png" %}"
+                                                                     alt="Dislike icons" height="18"
+                                                                     width="18" class="img-rounded"></button-->
                         </div>
                     </div>
                 </div><!--/.tags and like/dislike -->
@@ -56,6 +71,26 @@
     {% endfor %}
 {% endblock %}
 
+{% block js %}
+    <script src="{% static "/js/csrf.js" %}"></script>
+    <script>
+        (function () {
+            $('.js-vote').on('click', function () {
+                var $this = $(this);
+                var qid = $this.data('qid');
+                var vote = $this.data('vote');
+                console.log('qid: ' + qid + " vote: " + vote);
+                $.post('/vote/', {
+                    qid: qid,
+                    vote: vote
+                }).done(function (data) {
+                    console.log(data);
+                });
+                return false;
+            })
+        })();
+    </script>
+{% endblock %}
 
 {% block pagination %}
     {% include "paginator.html" %}

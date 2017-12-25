@@ -213,9 +213,9 @@ def vote(request):
         return JsonResponse(dict(error='bad question id'))
     _vote = request.POST.get('vote')
     question = Question.objects.get_with_rating(id=qid)
-    rating = question.rating
+    likes = question.likes
     if _vote == "inc":
-        rating += 1
+        likes += 1
     else:
-        rating -= 1
-    return JsonResponse(dict(ok=1, vote=_vote, rating=rating))
+        likes -= 1
+    return JsonResponse(dict(ok=1, vote=_vote, likes=likes))
