@@ -3524,7 +3524,7 @@ tbody.collapse.in {
   z-index: 1000;
   display: none;
   float: left;
-  min-width: 120px;
+  min-width: 90px;
   padding: 5px 0;
   margin: 2px 0 0;
   font-size: 14px;
@@ -4640,8 +4640,8 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 .navbar-inverse .navbar-nav > .open > a,
 .navbar-inverse .navbar-nav > .open > a:hover,
 .navbar-inverse .navbar-nav > .open > a:focus {
-  color: #fff;
-  background-color: #080808;
+  color: cornflowerblue;
+  background-color: transparent;
 }
 @media (max-width: 767px) {
   .navbar-inverse .navbar-nav .open .dropdown-menu > .dropdown-header {

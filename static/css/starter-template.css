@@ -92,3 +92,8 @@ body {
 .blue-text-color{
     color: cornflowerblue;
 }
+
+
+.modal-backdrop.fade.in {
+	display: none;
+}

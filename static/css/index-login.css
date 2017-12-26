@@ -4,11 +4,12 @@
 
 .nickname{
 	margin-top: 3px;
+	background-color: transparent;
 }
 
 .ask{
-	margin-top: 2px;
+	margin-top: 7px;
 	margin-right: 110px;
 	font-size: 14pt;
-	color: cornflowerblue;
+	color: white;
 }
