@@ -4,29 +4,44 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 
+
 # Create your models here.
 
 
 class UserProfile(User):
     avatar = models.ImageField(upload_to='avatar/%Y/%m/%d', null=True, verbose_name='Аватар', default='avatar.jpg')
 
+    class Meta:
+        verbose_name = 'Userprofile'
+        verbose_name_plural = 'Userprofiles'
+
     def name(self):
         return self.first_name + " " + self.last_name
+
+    def __str__(self):
+        return "%d: \n\t%s" % (self.id, self.username)
 
 
 class Tag(models.Model):
     name = models.CharField(max_length=100, verbose_name=u'Тег')
     questions = models.ManyToManyField('Question')
 
+    class Meta:
+        verbose_name = 'Tag'
+        verbose_name_plural = 'Tags'
 
-#class Like(models.Model):
+    def __str__(self):
+        return self.name
+
+
+# class Like(models.Model):
 #    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
 #    like_date_time = models.DateTimeField(auto_now_add=True)
 #    like_target_question = models.ForeignKey('Question', on_delete=models.CASCADE)
 #    like_target_answer = models.ForeignKey('Answer', on_delete=models.CASCADE)
-    #unique для 3 полей
-    #две модели лайков для вопросов и ответов
-    #две связи к вопросу и к ответу одна из них нулл
+# unique для 3 полей
+# две модели лайков для вопросов и ответов
+# две связи к вопросу и к ответу одна из них нулл
 
 
 class QuestionManager(models.Manager):
@@ -102,19 +117,18 @@ class QuestionManager(models.Manager):
         return question
 
 
-
 class Question(models.Model):
     title = models.CharField(max_length=200, verbose_name=u'Заголовок вопроса')
     text = models.TextField(verbose_name=u'Тело вопроса')
-    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE, verbose_name=u'Автор')
     create_date = models.DateField(auto_now_add=True, verbose_name=u'Дата создания')
-    
+
     objects = QuestionManager()
-    
+
     class Meta:
-        verbose_name = 'question'
-        verbose_name_plural = 'questions'
-    
+        verbose_name = 'Question'
+        verbose_name_plural = 'Questions'
+
     def __str__(self):
         return "%s: \n\t%s" % (self.title, self.text)
 
@@ -129,6 +143,7 @@ class AnswerManager(models.Manager):
             answer.likes = len(all_likes)
         return all_answers
 
+
 class Answer(models.Model):
     text = models.TextField(verbose_name=u'Тело ответа')
     is_correct = models.BooleanField(default=False)
@@ -139,28 +154,38 @@ class Answer(models.Model):
     objects = AnswerManager()
 
     class Meta:
-        verbose_name = 'answer'
-        verbose_name_plural = 'answers'
-    
+        verbose_name = 'Answer'
+        verbose_name_plural = 'Answers'
+
     def __str__(self):
-        return str(self.id) + ' ' + self.text
+        return "%d: \n\t%s" % (self.id, self.text)
 
 
 class LikeQuestion(models.Model):
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
     like_date_time = models.DateTimeField(auto_now_add=True)
     like_target_question = models.ForeignKey('Question', on_delete=models.CASCADE)
-    status = models.IntegerField(default=0)
+    status = models.IntegerField(default=0, verbose_name=u'Статус лайк или дизлайк')
 
     class Meta:
         unique_together = ('author', 'like_target_question',)
+        verbose_name = 'Like for question'
+        verbose_name_plural = 'Like for questions'
+
+    def __str__(self):
+        return "%s: \n\t%d" % (self.author, self.status)
 
 
 class LikeAnswer(models.Model):
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
     like_date_time = models.DateTimeField(auto_now_add=True)
     like_target_answer = models.ForeignKey('Answer', on_delete=models.CASCADE)
-    status = models.IntegerField(default=0)
+    status = models.IntegerField(default=0, verbose_name=u'Статус лайк или дизлайк')
 
     class Meta:
         unique_together = ('author', 'like_target_answer',)
+        verbose_name = 'Like for answer'
+        verbose_name_plural = 'Like for answers'
+
+    def __str__(self):
+        return "%s: \n\t%d" % (self.author, self.status)

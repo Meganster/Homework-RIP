@@ -14,10 +14,20 @@ from .models import *
 def index(request):
     context = {}
     context = _get_user_context(request, context)
+
     questions = Question.objects.recent_questions()
     questions_for_render = paginate(questions, request)
-
     context['objects'] = questions_for_render
+    context['enable_modal_ask'] = True
+
+    if request.method == 'POST':
+        form = AskForm(request.POST, UserProfile.objects.get(id=request.user.id))
+        if form.is_valid():
+            new_question = form.save()
+            return redirect('question', new_question.id)
+    else:
+        form = AskForm()
+    context['form'] = form
     return render(request, 'index.html', context)
 
 
@@ -27,6 +37,15 @@ def tag(request, name):
     questions = Question.objects.questions_by_tag(name)
     questions_for_render = paginate(questions, request)
     context['objects'] = questions_for_render
+    #context['enable_modal_ask'] = True
+    #if request.method == 'POST':
+    #    form = AskForm(request.POST, UserProfile.objects.get(id=request.user.id))
+    #    if form.is_valid():
+    #        new_question = form.save()
+    #        return redirect('question', new_question.id)
+    #else:
+    #    form = AskForm()
+    #context['form'] = form
     return render(request, 'tag.html', context)
 
 
@@ -103,6 +122,8 @@ def _get_user_context(request, context):
         context['user'] = UserProfile.objects.get(username=request.user.username)
     else:
         context['user_logged_in'] = False
+
+    context['enable_modal_ask'] = False
     return context
 
 
