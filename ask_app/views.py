@@ -306,3 +306,19 @@ class VoteView(View):
         else:
             likes -= 1
         return JsonResponse(dict(ok=1, vote=_vote, likes=likes))
+
+class AnswerView(View):
+    def post(self, request):
+        try:
+            qid = int(request.POST.get('qid'))
+        except:
+            return JsonResponse(dict(error='bad question id'))
+
+        _vote = request.POST.get('vote')
+        question = Question.objects.get_with_tags(question_id=qid)
+        likes = question.likes
+        if _vote == "inc":
+            likes += 1
+        else:
+            likes -= 1
+        return JsonResponse(dict(ok=1, vote=_vote, likes=likes))

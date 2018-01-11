@@ -108,4 +108,24 @@
 {% block pagination %}
     {% include "paginator.html" %}
 {% endblock %}
-              
+
+{% block js %}
+    <script src="{% static "/js/csrf.js" %}"></script>
+    <script>
+        (function () {
+            $('.js-vote').on('click', function () {
+                var $this = $(this);
+                var qid = $this.data('qid');
+                var vote = $this.data('vote');
+                console.log('qid: ' + qid + " vote: " + vote);
+                $.post('/vote/', {
+                    qid: qid,
+                    vote: vote
+                }).done(function (data) {
+                    console.log(data);
+                });
+                return false;
+            })
+        })();
+    </script>
+{% endblock %}

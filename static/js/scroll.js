@@ -15,7 +15,7 @@ $(window).scroll(function () {
             if (data.length > 0) {
                 for(var i = 0; i < data.length; i++){
                     var inf = data[i];
-                    var $newposts = $('#post_id-20').clone();
+                    var $newposts = $('#post_id-19').clone();
                     $newposts.attr('id', 'post_id-'+inf.id);
                     $newposts.find('#title').text(inf.title);
                     $newposts.find('#title').attr('href', '/question/'+inf.id);
