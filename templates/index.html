@@ -32,7 +32,7 @@
                         <div class="row tags-like-dislike">
                             <div class="col-xs-8 col-sm-6 like-dislike">
                                 <div class="main-answers-and-tags">
-                                    <a href="{% url 'question' item.id %}">Answers {{ item.number_answers }}</a>
+                                    <a  id="number_answers" href="{% url 'question' item.id %}">Answers {{ item.number_answers }}</a>
                                     {% if item.tags %}
                                         <span class="tags">Tags:</span>
                                         {% for tag in item.tags %}

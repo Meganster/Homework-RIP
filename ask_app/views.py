@@ -32,96 +32,125 @@ class LoadView(View):
                     'likes': questn.likes
                 }
             )
-            return HttpResponse(json.dumps(questions_for_send), content_type='application/json')
+        return HttpResponse(json.dumps(questions_for_send), content_type='application/json')
 
 
-def index(request):
-    context = {}
-    context = _get_user_context(request, context)
+class IndexView(View):
+    def get(self, request):
+        context = {}
+        context = _get_user_context(request, context)
 
-    questions = Question.objects.recent_questions()
-    questions_for_render = questions[0:20]
-    context['objects'] = questions_for_render
-    context['enable_modal_ask'] = True
+        questions = Question.objects.recent_questions()
+        questions_for_render = questions[0:20]
+        context['objects'] = questions_for_render
+        context['enable_modal_ask'] = True
+        form = AskForm()
 
-    if request.method == 'POST':
+        context['form'] = form
+        return render(request, 'index.html', context)
+
+    def post(self, request):
+        context = {}
+        context = _get_user_context(request, context)
+
+        questions = Question.objects.recent_questions()
+        questions_for_render = questions[0:20]
+        context['objects'] = questions_for_render
+        context['enable_modal_ask'] = True
         form = AskForm(request.POST, UserProfile.objects.get(id=request.user.id))
         if form.is_valid():
             new_question = form.save()
             return redirect('question', new_question.id)
-    else:
-        form = AskForm()
-    context['form'] = form
-    return render(request, 'index.html', context)
+
+        context['form'] = form
+        return render(request, 'index.html', context)
+
+class TagView(View):
+    def get(self, request, name):
+        context = {}
+        context = _get_user_context(request, context)
+        questions = Question.objects.questions_by_tag(name)
+        questions_for_render = questions[0:20]
+        context['objects'] = questions_for_render
+        # context['enable_modal_ask'] = True
+        # if request.method == 'POST':
+        #    form = AskForm(request.POST, UserProfile.objects.get(id=request.user.id))
+        #    if form.is_valid():
+        #        new_question = form.save()
+        #        return redirect('question', new_question.id)
+        # else:
+        #    form = AskForm()
+        # context['form'] = form
+        return render(request, 'tag.html', context)
+
+class HotView(View):
+    def get(self, request):
+        context = {}
+        context = _get_user_context(request, context)
+        questions = Question.objects.questions_with_high_rating()
+        questions_for_render = paginate(questions, request)
+        context['objects'] = questions_for_render
+        return render(request, 'index.html', context)
 
 
-def tag(request, name):
-    context = {}
-    context = _get_user_context(request, context)
-    questions = Question.objects.questions_by_tag(name)
-    questions_for_render = questions[0:20]
-    context['objects'] = questions_for_render
-    # context['enable_modal_ask'] = True
-    # if request.method == 'POST':
-    #    form = AskForm(request.POST, UserProfile.objects.get(id=request.user.id))
-    #    if form.is_valid():
-    #        new_question = form.save()
-    #        return redirect('question', new_question.id)
-    # else:
-    #    form = AskForm()
-    # context['form'] = form
-    return render(request, 'tag.html', context)
+class QuestionView(View):
+    def get(self, request, _id):
+        context = {}
+        context = _get_user_context(request, context)
 
+        try:
+            main_question = Question.objects.get_with_tags(_id)
+        except Question.DoesNotExist:
+            raise Http404()
 
-def hot(request):
-    context = {}
-    context = _get_user_context(request, context)
-    questions = Question.objects.questions_with_high_rating()
-    questions_for_render = paginate(questions, request)
-    context['objects'] = questions_for_render
-    return render(request, 'index.html', context)
+        answers = Answer.objects.get_with_likes(_id)
+        answers_for_render = paginate(answers, request)
+        form = AnswerForm()
 
+        context['form'] = form
+        context['question'] = main_question
+        context['answers'] = answers_for_render
+        return render(request, 'question.html', context)
 
-def question(request, _id):
-    context = {}
-    context = _get_user_context(request, context)
+    def post(self, request, _id):
+        context = {}
+        context = _get_user_context(request, context)
 
-    try:
-        main_question = Question.objects.get_with_tags(_id)
-    except Question.DoesNotExist:
-        raise Http404()
-
-    answers = Answer.objects.get_with_likes(_id)
-    answers_for_render = paginate(answers, request)
-
-    if request.method == 'POST':
+        try:
+            main_question = Question.objects.get_with_tags(_id)
+        except Question.DoesNotExist:
+            raise Http404()
+        answers = Answer.objects.get_with_likes(_id)
+        answers_for_render = paginate(answers, request)
         form = AnswerForm(request.POST, context['user'], main_question)
         if form.is_valid():
             form.save()
             return redirect('question', _id)
-    else:
-        form = AnswerForm()
 
-    context['form'] = form
-    context['question'] = main_question
-    context['answers'] = answers_for_render
-    return render(request, 'question.html', context)
+        context['form'] = form
+        context['question'] = main_question
+        context['answers'] = answers_for_render
+        return render(request, 'question.html', context)
 
 
-def ask(request):
-    context = {}
-    context = _get_user_context(request, context)
+class AskView(View):
+    def get(self, request):
+        context = {}
+        context = _get_user_context(request, context)
+        form = AskForm()
 
-    if request.method == 'POST':
+        context['form'] = form
+        return render(request, 'ask.html', context)
+
+    def post(self, request):
+        context = {}
+        context = _get_user_context(request, context)
         form = AskForm(request.POST, UserProfile.objects.get(id=request.user.id))
         if form.is_valid():
             new_question = form.save()
             return redirect('question', new_question.id)
-    else:
-        form = AskForm()
-
-    context['form'] = form
-    return render(request, 'ask.html', context)
+        context['form'] = form
+        return render(request, 'ask.html', context)
 
 
 def paginate(objects_list, request, page_objects_num=20):
@@ -151,16 +180,24 @@ def _get_user_context(request, context):
     return context
 
 
-def login(request):
-    if request.user.is_authenticated():
-        context = {}
-        context = _get_user_context(request, context)
-        return render(request, 'index.html', context)
+class LoginView(View):
+    def get(self, request):
+        if request.user.is_authenticated():
+            context = {}
+            context = _get_user_context(request, context)
+            return render(request, 'index.html', context)
 
-    # if a user just wants to login
-    if request.method == 'GET':
         form = LoginForm()
-    else:  # else, if he sends some data in POST
+        return render(request, 'login.html', {
+            'form': form
+        })
+
+    def post(self, request):
+        if request.user.is_authenticated():
+            context = {}
+            context = _get_user_context(request, context)
+            return render(request, 'index.html', context)
+
         form = LoginForm(request.POST)  # initialize the form with POST data
         if form.is_valid():
             username = form.cleaned_data["username"]
@@ -171,66 +208,77 @@ def login(request):
                 return HttpResponseRedirect("/success")
             else:  # else, auth gone wrong
                 form.add_error(None, "Username or password is incorrect")
+        return render(request, 'login.html', {
+            'form': form
+        })
 
-    return render(request, 'login.html', {'form': form})
 
+class RegistrationView(View):
+    def get(self, request):
+        if request.user.is_authenticated():
+            context = {}
+            context = _get_user_context(request, context)
+            return render(request, 'index.html', context)
 
-def registration(request):
-    if request.user.is_authenticated():
-        context = {}
-        context = _get_user_context(request, context)
-        return render(request, 'index.html', context)
-    if request.method == 'GET':
         register_form = RegisterForm()
-    else:
+        return render(request, 'registration.html', {
+            'form': register_form
+        })
+
+    def post(self, request):
         register_form = RegisterForm(request.POST, request.FILES)
         if register_form.is_valid():
             new_profile = register_form.save()
             l_in(request, new_profile)
             return HttpResponseRedirect("/success")
-    return render(request, 'registration.html', {'form': register_form})
+        return render(request, 'registration.html', {
+            'form': register_form
+        })
 
 
-def create_answer(request):
-    if request.method == 'POST':
-        form = AnswerForm(request.POST)
-        if form.is_valid():
-            return HttpResponseRedirect("/")
-    else:
-        form = AnswerForm()
-
-    context = {'form': form}
-    context = _get_user_context(request, context)
-    return render(request, "form.html", context)
-
-
-def success(request):
-    context = {}
-    context = _get_user_context(request, context)
-    if request.user.is_authenticated():
-        context['success'] = True
-        return redirect('/')
-    else:
-        return render(request, 'success.html', {"success": False})
+class SuccessView(View):
+    def get(self, request):
+        context = {}
+        context = _get_user_context(request, context)
+        if request.user.is_authenticated():
+            context['success'] = True
+            return redirect('/')
+        else:
+            return render(request, 'success.html', {
+                'success': False
+            })
 
 
-@login_required()
-def logout(request):
-    if request.user.is_authenticated():
-        l_out(request)
-        return HttpResponseRedirect('/')
-    else:
-        return HttpResponseRedirect('/')
+class LogoutView(View):
+    def get(self, request):
+        if request.user.is_authenticated():
+            l_out(request)
+            return HttpResponseRedirect('/')
+        else:
+            return HttpResponseRedirect('/')
 
 
-@login_required()
-def settings(request):
-    user = request.user
-    _profile = UserProfile.objects.filter(user_ptr_id=user.id).last()
-    print("=====================")
-    print(user.id)
+class SettingsView(View):
+    def get(self, request):
+        user = request.user
+        _profile = UserProfile.objects.filter(user_ptr_id=user.id).last()
+        print("=====================")
+        print(user.id)
 
-    if request.POST:
+        init = {"username": _profile.username,
+                "email": _profile.email,
+                "avatar": _profile.avatar}
+        form = ProfileForm(initial=init)
+        context = {'form': form}
+        context = _get_user_context(request, context)
+        return render(request, 'settings.html', context)
+
+    def post(self, request):
+        user = request.user
+        _profile = UserProfile.objects.filter(user_ptr_id=user.id).last()
+        print("=====================")
+        print(user.id)
+
         form = ProfileForm(request.POST, request.FILES, _profile)
         if form.is_valid():
             _profile.username = form.cleaned_data["username"]
@@ -238,29 +286,23 @@ def settings(request):
             if form.cleaned_data["avatar"]:
                 _profile.avatar = form.cleaned_data["avatar"]
             _profile.save()
-    else:
-        # build initial dict
-        init = {"username": _profile.username,
-                "email": _profile.email,
-                "avatar": _profile.avatar}
-        form = ProfileForm(initial=init)
-
-    context = {'form': form}
-    context = _get_user_context(request, context)
-    return render(request, 'settings.html', context)
+        context = {'form': form}
+        context = _get_user_context(request, context)
+        return render(request, 'settings.html', context)
 
 
-@login_required()
-def vote(request):
-    try:
-        qid = int(request.POST.get('qid'))
-    except:
-        return JsonResponse(dict(error='bad question id'))
-    _vote = request.POST.get('vote')
-    question = Question.objects.get_with_tags(question_id=qid)
-    likes = question.likes
-    if _vote == "inc":
-        likes += 1
-    else:
-        likes -= 1
-    return JsonResponse(dict(ok=1, vote=_vote, likes=likes))
+class VoteView(View):
+    def post(self, request):
+        try:
+            qid = int(request.POST.get('qid'))
+        except:
+            return JsonResponse(dict(error='bad question id'))
+
+        _vote = request.POST.get('vote')
+        question = Question.objects.get_with_tags(question_id=qid)
+        likes = question.likes
+        if _vote == "inc":
+            likes += 1
+        else:
+            likes -= 1
+        return JsonResponse(dict(ok=1, vote=_vote, likes=likes))

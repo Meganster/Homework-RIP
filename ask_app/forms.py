@@ -148,8 +148,6 @@ class AskForm(forms.Form):
                     new_tag = Tag(name=tag)
                     new_tag.save()
                     new_tag.questions.add(question)
-
-            question.save()
             return question
 
 

@@ -20,6 +20,9 @@ $(window).scroll(function () {
                     $newposts.find('#title').text(inf.title);
                     $newposts.find('#title').attr('href', '/question/'+inf.id);
                     $newposts.find('#post-text').text(inf.text);
+                    $newposts.find('#score').text(inf.likes);
+                    $newposts.find('#number_answers').text('Answer '+inf.number_answers);
+                    $newposts.find('#number_answers').attr('href', '/question/'+inf.id);
                     $('#thread').append($newposts);
                 }
 
