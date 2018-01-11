@@ -6,9 +6,33 @@ from django.contrib.auth import authenticate, login as l_in, logout as l_out
 from django.http import HttpResponseRedirect
 from django.http.response import Http404, JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.views import View
+import json
 
 from ask_app.forms import *
 from .models import *
+
+
+class LoadView(View):
+    def get(self, request):
+        start = int(request.GET.get('start'))
+        recent_questions = Question.objects.recent_questions()
+        questions_for_send = []
+        result = recent_questions[start:start + 4]
+        for questn in result:
+            questions_for_send.append(
+                {
+                    'text': questn.text,
+                    'title': questn.title,
+                    'author': questn.author.username,
+                    'id': questn.id,
+                    'avatar': questn.author.avatar.url,
+                    # 'tags': list(questn.tags),
+                    'number_answers': questn.number_answers,
+                    'likes': questn.likes
+                }
+            )
+            return HttpResponse(json.dumps(questions_for_send), content_type='application/json')
 
 
 def index(request):
@@ -16,7 +40,7 @@ def index(request):
     context = _get_user_context(request, context)
 
     questions = Question.objects.recent_questions()
-    questions_for_render = paginate(questions, request)
+    questions_for_render = questions[0:20]
     context['objects'] = questions_for_render
     context['enable_modal_ask'] = True
 
@@ -35,17 +59,17 @@ def tag(request, name):
     context = {}
     context = _get_user_context(request, context)
     questions = Question.objects.questions_by_tag(name)
-    questions_for_render = paginate(questions, request)
+    questions_for_render = questions[0:20]
     context['objects'] = questions_for_render
-    #context['enable_modal_ask'] = True
-    #if request.method == 'POST':
+    # context['enable_modal_ask'] = True
+    # if request.method == 'POST':
     #    form = AskForm(request.POST, UserProfile.objects.get(id=request.user.id))
     #    if form.is_valid():
     #        new_question = form.save()
     #        return redirect('question', new_question.id)
-    #else:
+    # else:
     #    form = AskForm()
-    #context['form'] = form
+    # context['form'] = form
     return render(request, 'tag.html', context)
 
 
@@ -118,7 +142,7 @@ def paginate(objects_list, request, page_objects_num=20):
 def _get_user_context(request, context):
     if request.user.is_authenticated():
         context['user_logged_in'] = True
-        #context['user'] = UserProfile.objects.get_or_create(username=request.user.username)
+        # context['user'] = UserProfile.objects.get_or_create(username=request.user.username)
         context['user'] = UserProfile.objects.get(username=request.user.username)
     else:
         context['user_logged_in'] = False

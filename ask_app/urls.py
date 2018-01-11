@@ -14,5 +14,6 @@ urlpatterns = [
                url(r'^$', views.index, name='index'),
                url(r'^success$', views.success, name='success'),
                url(r'^logout$', views.logout, name='logout'),
-               url(r'^vote/$', views.vote)
+               url(r'^vote/$', views.vote),
+               url(r'^load/', views.LoadView.as_view())
 ]

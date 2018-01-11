@@ -11,64 +11,74 @@
                                                                               style="color: black">Best questions</a>
     </p>
 
-    {% for item in objects %}
-        <div class="row question-answer">
-            <div class="col-xs-8 col-sm-2 col-picture">
-                <img src="{{ MEDIA_URL }}/{{ item.author.avatar }}" alt="user_avatar" height="50" width="50" class="img-rounded">
-            </div>
-            <div class="col-xs-4 col-sm-10 col-question">
-                <dl>
-                    <dt class="headlines-answer-question">
-                        <a href="{% url 'question' item.id %}">{{ item.title }}</a>
-                    </dt>
-                    <dd>
-                        {{ item.text }}
-                    </dd>
-                </dl>
-
-                <div class="row tags-like-dislike">
-                    <div class="col-xs-8 col-sm-6 like-dislike">
-                        <div class="main-answers-and-tags">
-                            <a href="{% url 'question' item.id %}">Answers {{ item.number_answers }}</a>
-                            {% if item.tags %}
-                                <span class="tags">Tags:</span>
-                                {% for tag in item.tags %}
-                                    <a href="{% url 'tag' tag.name %}">{{ tag.name }}</a>
-                                {% endfor %}
-                            {% else %}
-                                <span class="tags">Tags: no</span>
-                            {% endif %}
-                        </div>
+    <div id='thread'>
+        {% for item in objects %}
+            <div class="post" id="post_id-{{ item.id }}">
+                <div class="row question-answer">
+                    <div class="col-xs-8 col-sm-2 col-picture">
+                        <img src="{{ MEDIA_URL }}/{{ item.author.avatar }}" alt="user_avatar" height="50" width="50"
+                             class="img-rounded">
                     </div>
+                    <div class="col-xs-4 col-sm-10 col-question">
+                        <dl>
+                            <dt class="headlines-answer-question">
+                                <a id="title" href="{% url 'question' item.id %}">{{ item.title }}</a>
+                            </dt>
+                            <dd>
+                                <p id='post-text'>{{ item.text }}</p>
+                            </dd>
+                        </dl>
 
-                    <div class="col-xs-8 col-sm-6 like-dislike">
-                        <div class="questions-list-btn-group btn-group">
-                            {% csrf_token %}
-                            <a class="js-vote" href="#" data-qid="{{ item.id }}" data-vote="dec"><i
-                                    class="btn btn-link btn-sm"><img src="{% static "/img/dislike.png" %}"
-                                                                     alt="Dislike icons"
-                                                                     height="18" width="18" class="img-rounded"></i></a>
-                            <a id="{{ item.likes }}.likes" style="status: disabled">{{ item.likes }}</a>
-                            <a class="js-vote" href="#" data-qid="{{ item.id }}" data-vote="inc"><i
-                                    class="btn btn-link btn-sm"><img src="{% static "/img/like.png" %}"
-                                                                     alt="Dislike icons" height="18"
-                                                                     width="18" class="img-rounded"></i></a>
+                        <div class="row tags-like-dislike">
+                            <div class="col-xs-8 col-sm-6 like-dislike">
+                                <div class="main-answers-and-tags">
+                                    <a href="{% url 'question' item.id %}">Answers {{ item.number_answers }}</a>
+                                    {% if item.tags %}
+                                        <span class="tags">Tags:</span>
+                                        {% for tag in item.tags %}
+                                            <a href="{% url 'tag' tag.name %}">{{ tag.name }}</a>
+                                        {% endfor %}
+                                    {% else %}
+                                        <span class="tags">Tags: no</span>
+                                    {% endif %}
+                                </div>
+                            </div>
 
-                            <!--button class="btn btn-link btn-sm"><img src="{ static "/img/dislike.png" %}"
-                                                                     alt="Dislike icons"
-                                                                     height="18" width="18" class="img-rounded">
-                            </button>
-                            <button class="btn btn-link btn-sm green-mark count-like"
-                                    disabled="disabled">{ item.likes }}</button>
-                            <button class="btn btn-link btn-sm"><img src="{ static "/img/like.png" %}"
-                                                                     alt="Dislike icons" height="18"
-                                                                     width="18" class="img-rounded"></button-->
-                        </div>
+                            <div class="col-xs-8 col-sm-6 like-dislike">
+                                <div class="questions-list-btn-group btn-group">
+                                    {% csrf_token %}
+                                    <a class="js-vote" href="#" data-qid="{{ item.id }}" data-vote="dec"><i
+                                            class="btn btn-link btn-sm"><img src="{% static "/img/dislike.png" %}"
+                                                                             alt="Dislike icons"
+                                                                             height="18" width="18" class="img-rounded"></i></a>
+                                    {% if item.likes >= 0 %}
+                                        <a id="score" style="status: disabled; color: #00FF00">{{ item.likes }}</a>
+                                    {% else %}
+                                        <a id="score" style="status: disabled; color: red">{{ item.likes }}</a>
+                                    {% endif %}
+
+                                    <a class="js-vote" href="#" data-qid="{{ item.id }}" data-vote="inc"><i
+                                            class="btn btn-link btn-sm"><img src="{% static "/img/like.png" %}"
+                                                                             alt="Dislike icons" height="18"
+                                                                             width="18" class="img-rounded"></i></a>
+
+                                    <!--button class="btn btn-link btn-sm"><img src="{ static "/img/dislike.png" %}"
+                                                                             alt="Dislike icons"
+                                                                             height="18" width="18" class="img-rounded">
+                                    </button>
+                                    <button class="btn btn-link btn-sm green-mark count-like"
+                                            disabled="disabled">{ item.likes }}</button>
+                                    <button class="btn btn-link btn-sm"><img src="{ static "/img/like.png" %}"
+                                                                             alt="Dislike icons" height="18"
+                                                                             width="18" class="img-rounded"></button-->
+                                </div>
+                            </div>
+                        </div><!--/.tags and like/dislike -->
                     </div>
-                </div><!--/.tags and like/dislike -->
+                </div> <!--/.question -->
             </div>
-        </div> <!--/.question -->
-    {% endfor %}
+        {% endfor %}
+    </div>
 {% endblock %}
 
 {% block js %}
@@ -90,10 +100,7 @@
             })
         })();
     </script>
-{% endblock %}
-
-{% block pagination %}
-    {% include "paginator.html" %}
+    <script src="{% static "/js/scroll.js" %}"></script>
 {% endblock %}
 
 
