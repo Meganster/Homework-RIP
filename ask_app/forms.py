@@ -119,14 +119,11 @@ class AskForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(AskForm, self).clean()
-        tag_list = cleaned_data["tags"].split(',')
+        tag_list = cleaned_data["tags"].split(' ')
         cleaned_data["tags"] = []
 
         for tag in tag_list:
-            tag.strip()
-            print("=========================")
-            print(tag)
-            print("=========================")
+            tag.strip(' ')
             cleaned_data["tags"].append(tag)
 
         if not cleaned_data["tags"]:

@@ -15,5 +15,6 @@ urlpatterns = [
                url(r'^success$', views.SuccessView.as_view(), name='success'),
                url(r'^logout$', views.LogoutView.as_view(), name='logout'),
                url(r'^vote/$', views.VoteView.as_view()),
-               url(r'^load/', views.LoadView.as_view())
+               url(r'^load/', views.LoadView.as_view()),
+               url(r'^addanswer/', views.AddAnswerView.as_view())
 ]

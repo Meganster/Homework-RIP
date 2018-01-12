@@ -35,6 +35,37 @@ class LoadView(View):
         return HttpResponse(json.dumps(questions_for_send), content_type='application/json')
 
 
+class AddAnswerView(View):
+    def post(self, request):
+        try:
+            text = str(request.POST.get('text'))
+            userid = int(request.POST.get('user'))
+            questionid = int(request.POST.get('question'))
+        except:
+            return JsonResponse(dict(error='bad data'))
+
+        if text:
+            new_answer = Answer(author=UserProfile.objects.get(id=userid),
+                                question=Question.objects.get(id=questionid),
+                                text=text)
+            new_answer.save()
+            answer_for_send = []
+            answer_for_send.append(
+                {
+                    'text': new_answer.text,
+                    'createdate': str(new_answer.create_date.year) + "." + str(new_answer.create_date.month) + "." +
+                                  str(new_answer.create_date.day),
+                    'id': new_answer.id
+                    # 'text': "super text for answer",
+                    # 'createdate': "11.23.2017",
+                    # 'id': "3"
+                }
+            )
+            return HttpResponse(json.dumps(answer_for_send), content_type='application/json')
+        else:
+            return JsonResponse(dict(error='bad length of text'))
+
+
 class IndexView(View):
     def get(self, request):
         context = {}
